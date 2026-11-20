@@ -53,3 +53,37 @@ if lancha is not None:
         lancha.registrar_dia(pasajeros)
         print(f"Día registrado. Total de días: {len(lancha.dias)}")
         break
+
+    lancha = leer_nombre_lancha()
+    if lancha is not None:
+        try:
+            texto = input("Número de días a simular: ").strip()
+            try:
+                num_dias = int(texto)
+            except ValueError:
+                raise ValueError("El número de días debe ser un número entero.")
+            if num_dias < 1:
+                raise ValueError("Se debe simular al menos 1 día.")
+
+            texto = input("Pasajeros mínimos por día: ").strip()
+            try:
+                minimo = int(texto)
+            except ValueError:
+                raise ValueError("Los pasajeros deben ser un número entero.")
+            if minimo < 0 or minimo > lancha.cupos:
+                raise ValueError(f"Los pasajeros van de 0 a {lancha.cupos}.")
+
+            texto = input("Pasajeros máximos por día: ").strip()
+            try:
+                maximo = int(texto)
+            except ValueError:
+                raise ValueError("Los pasajeros deben ser un número entero.")
+            if maximo < 0 or maximo > lancha.cupos:
+                raise ValueError(f"Los pasajeros van de 0 a {lancha.cupos}.")
+            if minimo > maximo:
+                raise ValueError("El mínimo no puede ser mayor que el máximo.")
+
+            lancha.simular_dias(num_dias, minimo, maximo)
+            print(f"\nSse agregaron {num_dias} días simulados. Total de dias: {len(lancha.dias)}")
+        except ValueError as e:
+            print(f"\nNo se simularon días: {e}")    

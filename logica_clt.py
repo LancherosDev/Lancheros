@@ -1,4 +1,5 @@
 from datetime import date
+import random
 
 def _es_bisiesto(año):
     return (año % 4 == 0 and año % 100 != 0) or (año % 400 == 0)
@@ -75,3 +76,23 @@ class Lancha:
 
     def registrar_dia(self, pasajeros):
         self.dias.append(pasajeros)
+
+    def simular_dias(self, num_dias, minimo, maximo):
+        if not isinstance(num_dias, int) or num_dias < 1:
+            raise ValueError("El numero de días debe ser un número entero positivo.")
+        if num_dias < 1:
+            raise ValueError("El número de días debe ser al menos 1.")
+        if not isinstance(minimo, int) or not isinstance(maximo, int):
+            raise ValueError("Los valores mínimo y máximo deben ser números enteros.")
+        if minimo < 0 or minimo > self.cupos:
+            raise ValueError(f"El valor mínimo debe estar entre 0 y {self.cupos}.")
+        if not isinstance(maximo, int) or isinstance(maximo, bool):
+            raise ValueError("El valor máximo debe ser un número entero.")
+        if maximo < 0 or maximo > self.cupos:
+            raise ValueError(f"El valor máximo debe estar entre 0 y {self.cupos}.")
+        if minimo > maximo:
+            raise ValueError("El valor mínimo no puede ser mayor que el valor máximo.")
+
+        for _ in range(num_dias):
+            self.dias.append(random.randint(minimo, maximo))
+            
