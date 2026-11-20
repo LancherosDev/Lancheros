@@ -87,3 +87,8 @@ if lancha is not None:
             print(f"\nSse agregaron {num_dias} días simulados. Total de dias: {len(lancha.dias)}")
         except ValueError as e:
             print(f"\nNo se simularon días: {e}")    
+
+    lancha = leer_nombre_lancha()
+    if lancha is not None:
+        print()
+        print(lancha.generar_informe())
