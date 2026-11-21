@@ -78,21 +78,20 @@ class Lancha:
         self.dias.append(pasajeros)
 
     def simular_dias(self, num_dias, minimo, maximo):
-        if not isinstance(num_dias, int) or num_dias < 1:
-            raise ValueError("El numero de días debe ser un número entero positivo.")
+        if not isinstance(num_dias, int) or isinstance(num_dias, bool):
+            raise ValueError("El número de días debe ser un número entero.")
         if num_dias < 1:
-            raise ValueError("El número de días debe ser al menos 1.")
-        if not isinstance(minimo, int) or not isinstance(maximo, int):
-            raise ValueError("Los valores mínimo y máximo deben ser números enteros.")
+            raise ValueError("Se debe simular al menos un día.")
+        if not isinstance(minimo, int) or isinstance(minimo, bool):
+            raise ValueError("Los pasajeros deben ser un número entero.")
         if minimo < 0 or minimo > self.cupos:
-            raise ValueError(f"El valor mínimo debe estar entre 0 y {self.cupos}.")
+            raise ValueError(f"Los pasajeros van de 0 a {self.cupos}.")
         if not isinstance(maximo, int) or isinstance(maximo, bool):
-            raise ValueError("El valor máximo debe ser un número entero.")
+            raise ValueError("Los pasajeros deben ser un número entero.")
         if maximo < 0 or maximo > self.cupos:
-            raise ValueError(f"El valor máximo debe estar entre 0 y {self.cupos}.")
+            raise ValueError(f"Los pasajeros van de 0 a {self.cupos}.")
         if minimo > maximo:
-            raise ValueError("El valor mínimo no puede ser mayor que el valor máximo.")
-
+            raise ValueError("El mínimo no puede ser mayor que el máximo.")
         for _ in range(num_dias):
             self.dias.append(random.randint(minimo, maximo))
 
@@ -106,24 +105,42 @@ class Lancha:
                 indice_min = i
         return self.fecha_del_indice(indice_max), self.fecha_del_indice(indice_min)
 
+    def contar_niveles_ocupacion(self):
+        critico = 0
+        bajo = 0
+        adecuado = 0
+        lleno = 0
+        for p in self.dias:
+            porcentaje = (p / self.cupos) * 100
+        if porcentaje < 50:
+            critico = critico + 1
+        elif porcentaje < 70:
+            bajo = bajo + 1
+        elif porcentaje < 90:   
+            adecuado = adecuado + 1
+        else:
+            lleno = lleno + 1
+        return critico, bajo, adecuado, lleno
+
     def generar_informe(self):
         informe = f"Lancha: {self.nombre}\n"
         informe += f"Cupos por día: {self.cupos}\n"
 
         if len(self.dias) == 0:
             informe += "No tiene días registrados.\n"
-            return informe
-
+        return informe
+        
         total_pasajeros = sum(self.dias)
         promedio = round(total_pasajeros / len(self.dias), 2)
         factor_ocupacion = round((promedio / self.cupos) * 100, 2)
-
+        
         suma_cuadrados = 0
         for p in self.dias:
             diferencia = p - promedio
             suma_cuadrados = suma_cuadrados + diferencia * diferencia
-        desviacion = round((suma_cuadrados / len(self.dias)) ** 0.5, 2)
 
+        desviacion = round((suma_cuadrados / len(self.dias)) ** 0.5, 2)
+        
         fecha_max, fecha_min = self.dia_max_min()
 
         informe += f"Días registrados: {len(self.dias)}\n"
@@ -133,4 +150,11 @@ class Lancha:
         informe += f"Factor de ocupación: {factor_ocupacion}\n"
         informe += f"Día con más pasajeros: {fecha_max}\n"
         informe += f"Día con menos pasajeros: {fecha_min}\n"
+
+        critico, bajo, adecuado, lleno = self.contar_niveles_ocupacion()
+        informe += f"Días en nivel crítico: {critico}\n"
+        informe += f"Días en nivel bajo: {bajo}\n"
+        informe += f"Días en nivel adecuado: {adecuado}\n"
+        informe += f"Días en nivel lleno: {lleno}\n"
+        
         return informe
