@@ -23,6 +23,33 @@ def encabezado(texto):
     print(C.NEGRITA + C.MAGENTA + f" ◆ {texto}" + C.QUITAR_FORMATO)
     linea()
 
+def opcion_ver_lanchas():
+    encabezado("Lanchas registradas")
+    if len(Lancha.registro) == 0:
+        print("  (ninguna todavía)")
+        return
+    i = 1
+    for nombre in Lancha.registro:
+        lancha = Lancha.registro[nombre]
+        print(f"  {i}. {lancha.nombre}  cupos: {lancha.cupos}  días: {len(lancha.dias)}")
+        i = i + 1
+
+
+def leer_nombre_lancha():
+    if len(Lancha.registro) == 0:
+        print(f"{C.TEXTO_ATENUADO}(ninguna todavía){C.QUITAR_FORMATO}")
+        return None
+    print(f"{C.CIAN}Lanchas disponibles:{C.QUITAR_FORMATO}")
+    for nombre in Lancha.registro:
+        print(f"  {C.NEGRITA}{nombre}{C.QUITAR_FORMATO}")
+    texto = input(f"{C.CIAN}Nombre de la lancha: {C.QUITAR_FORMATO}").strip()
+    lancha = Lancha.buscar(texto)
+    if lancha is None:
+        print("No hay una lancha con ese nombre.")
+        return None
+    return lancha
+
+
 def convertir_a_entero_o_texto(texto):
     texto = texto.strip()
     try:
@@ -31,13 +58,34 @@ def convertir_a_entero_o_texto(texto):
         return texto
 
 
-def leer_nombre_lancha():
-    nombre = input("Ingrese el nombre de la lancha: ").strip()
-    lancha = Lancha.buscar(nombre)
-    if lancha is None:
-        print(f"No hay una lancha con el nombre '{nombre}'.")
-        return None
-    return lancha
+def opcion_crear_lancha():
+    encabezado("Crear lancha")
+    hoy = date.today()
+    try:
+        nombre = input(f"{C.CIAN}Nombre de la lancha: {C.QUITAR_FORMATO}").strip()
+        cupos = input(f"{C.CIAN}Cupos por día: {C.QUITAR_FORMATO}").strip()
+        texto_año = input(f"{C.CIAN}Año de inicio [{hoy.year}]: {C.QUITAR_FORMATO}").strip()
+        texto_mes = input(f"{C.CIAN}Mes de inicio (1-12) [{hoy.month}]: {C.QUITAR_FORMATO}").strip()
+        texto_dia = input(f"{C.CIAN}Día de inicio [{hoy.day}]: {C.QUITAR_FORMATO}").strip()
+
+        cupos = convertir_a_entero_o_texto(cupos)
+        if texto_año == "":
+            año = hoy.year
+        else:
+            año = convertir_a_entero_o_texto(texto_año)
+        if texto_mes == "":
+            mes = hoy.month
+        else:
+            mes = convertir_a_entero_o_texto(texto_mes)
+        if texto_dia == "":
+            dia = hoy.day
+        else:
+            dia = convertir_a_entero_o_texto(texto_dia)
+
+        lancha = Lancha.crear_lancha(nombre, cupos, año, mes, dia)
+        print(f"{C.VERDE}Lancha {lancha.nombre} creada. Inicia el {lancha.fecha_inicio_registro.day:02d}/{lancha.fecha_inicio_registro.month:02d}/{lancha.fecha_inicio_registro.year}.{C.QUITAR_FORMATO}")
+    except ValueError as e:
+        print(f"\nNo se creó la lancha: {e}")
 
 
 def opcion_registrar_dia():
