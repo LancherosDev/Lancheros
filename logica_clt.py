@@ -96,6 +96,16 @@ class Lancha:
         for _ in range(num_dias):
             self.dias.append(random.randint(minimo, maximo))
 
+    def dia_max_min(self):
+        indice_max = 0
+        indice_min = 0
+        for i in range(len(self.dias)):
+            if self.dias[i] > self.dias[indice_max]:
+                indice_max = i
+            if self.dias[i] < self.dias[indice_min]:
+                indice_min = i
+        return self.fecha_del_indice(indice_max), self.fecha_del_indice(indice_min)
+
     def generar_informe(self):
         informe = f"Lancha: {self.nombre}\n"
         informe += f"Cupos por día: {self.cupos}\n"
@@ -114,10 +124,13 @@ class Lancha:
             suma_cuadrados = suma_cuadrados + diferencia * diferencia
         desviacion = round((suma_cuadrados / len(self.dias)) ** 0.5, 2)
 
+        fecha_max, fecha_min = self.dia_max_min()
+
         informe += f"Días registrados: {len(self.dias)}\n"
         informe += f"Pasajeros totales: {total_pasajeros}\n"
         informe += f"Promedio de pasajeros por día: {promedio}\n"
         informe += f"Desviación estándar: {desviacion}\n"
         informe += f"Factor de ocupación: {factor_ocupacion}\n"
+        informe += f"Día con más pasajeros: {fecha_max}\n"
+        informe += f"Día con menos pasajeros: {fecha_min}\n"
         return informe
-            
