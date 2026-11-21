@@ -97,21 +97,27 @@ class Lancha:
             self.dias.append(random.randint(minimo, maximo))
 
     def generar_informe(self):
-                informe = f"Lancha: {self.nombre}\n"
-                informe += f"Cupos por día: {self.cupos}\n"
-    
-                if len(self.dias) == 0:
-                    informe += "No tiene días registrados.\n"
-                    return informe
-    
-                total_pasajeros = sum(self.dias)
-                promedio = round(total_pasajeros / len(self.dias), 2)
-                factor_ocupacion = round((promedio / self.cupos) * 100, 2)
-    
-                informe += f"Días registrados: {len(self.dias)}\n"
-                informe += f"Pasajeros totales: {total_pasajeros}\n"
-                informe += f"Promedio de pasajeros por día: {promedio}\n"
-                informe += f"Factor de ocupación: {factor_ocupacion}\n"
-    
-                return informe
+        informe = f"Lancha: {self.nombre}\n"
+        informe += f"Cupos por día: {self.cupos}\n"
+
+        if len(self.dias) == 0:
+            informe += "No tiene días registrados.\n"
+            return informe
+
+        total_pasajeros = sum(self.dias)
+        promedio = round(total_pasajeros / len(self.dias), 2)
+        factor_ocupacion = round((promedio / self.cupos) * 100, 2)
+
+        suma_cuadrados = 0
+        for p in self.dias:
+            diferencia = p - promedio
+            suma_cuadrados = suma_cuadrados + diferencia * diferencia
+        desviacion = round((suma_cuadrados / len(self.dias)) ** 0.5, 2)
+
+        informe += f"Días registrados: {len(self.dias)}\n"
+        informe += f"Pasajeros totales: {total_pasajeros}\n"
+        informe += f"Promedio de pasajeros por día: {promedio}\n"
+        informe += f"Desviación estándar: {desviacion}\n"
+        informe += f"Factor de ocupación: {factor_ocupacion}\n"
+        return informe
             
