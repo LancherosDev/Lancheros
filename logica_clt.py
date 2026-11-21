@@ -104,7 +104,13 @@ class Lancha:
             if self.dias[i] < self.dias[indice_min]:
                 indice_min = i
         return self.fecha_del_indice(indice_max), self.fecha_del_indice(indice_min)
-
+    
+    def fecha_del_indice(self, indice):
+        fecha = self.fecha_inicio_registro
+        for _ in range(indice):
+          fecha = _avanzar_un_dia(fecha)
+        return fecha
+    
     def contar_niveles_ocupacion(self):
         critico = 0
         bajo = 0
