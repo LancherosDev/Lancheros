@@ -150,6 +150,13 @@ class Lancha:
             return None
         return mejor_longitud, self.fecha_del_indice(mejor_inicio)
 
+    def factor_ocupacion_sin_redondear(self):
+        if len(self.dias) == 0:
+            return None
+        total_pasajeros = sum(self.dias)
+        promedio = total_pasajeros / len(self.dias)
+        return (promedio / self.cupos) * 100
+
 
 def generar_informe(self):
     informe = f"Lancha: {self.nombre}\n"

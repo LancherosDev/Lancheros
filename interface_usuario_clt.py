@@ -230,3 +230,31 @@ def opcion_generar_informe():
     ultimo = lancha.fecha_del_indice(len(lancha.dias) - 1)
     ultimo_txt = f"{ultimo.day:02d}/{ultimo.month:02d}/{ultimo.year}"
     print(f"{C.VERDE}Al día: último registro {ultimo_txt}.{C.QUITAR_FORMATO}")
+
+def opcion_factores_extremos():
+    encabezado("Factor de ocupación más alto y más bajo")
+    
+    max_factor = None
+    max_nombre = None
+    min_factor = None
+    min_nombre = None
+    
+    for nombre in Lancha.registro:
+        lancha = Lancha.registro[nombre]
+        factor = lancha.factor_ocupacion_sin_redondear()
+        if factor is None:
+            continue
+    
+        if max_factor is None or factor > max_factor:
+            max_factor = factor
+            max_nombre = nombre
+    
+        if min_factor is None or factor < min_factor:
+            min_factor = factor
+            min_nombre = nombre
+        
+    if max_factor is None:
+        print("Ninguna lancha tiene días registrados.")
+        return
+    print(f"{C.NEGRITA}{C.CIAN}Lancha con factor de ocupación más alto: {C.QUITAR_FORMATO}{C.NEGRITA}{max_nombre} ({round(max_factor, 2)} %){C.QUITAR_FORMATO}")
+    print(f"{C.NEGRITA}{C.CIAN}Lancha con factor de ocupación más bajo: {C.QUITAR_FORMATO}{C.NEGRITA}{min_nombre} ({round(min_factor, 2)} %){C.QUITAR_FORMATO}")
