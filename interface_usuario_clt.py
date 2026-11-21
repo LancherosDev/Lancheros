@@ -258,3 +258,42 @@ def opcion_factores_extremos():
         return
     print(f"{C.NEGRITA}{C.CIAN}Lancha con factor de ocupación más alto: {C.QUITAR_FORMATO}{C.NEGRITA}{max_nombre} ({round(max_factor, 2)} %){C.QUITAR_FORMATO}")
     print(f"{C.NEGRITA}{C.CIAN}Lancha con factor de ocupación más bajo: {C.QUITAR_FORMATO}{C.NEGRITA}{min_nombre} ({round(min_factor, 2)} %){C.QUITAR_FORMATO}")
+
+    def menu():
+       while True:
+        limpiar()
+        banner()
+        print(f"\n Lanchas registradas: {C.NEGRITA}{len(Lancha.registro)}{C.QUITAR_FORMATO}\n")
+        print(f" {C.AMARILLO}1{C.QUITAR_FORMATO} Crear lancha")
+        print(f" {C.AMARILLO}2{C.QUITAR_FORMATO} Registrar pasajeros de un día")
+        print(f" {C.AMARILLO}3{C.QUITAR_FORMATO} Simular días")
+        print(f" {C.AMARILLO}4{C.QUITAR_FORMATO} Ver informe")
+        print(f" {C.AMARILLO}5{C.QUITAR_FORMATO} Factor de ocupación más alto y más bajo")
+        print(f" {C.AMARILLO}6{C.QUITAR_FORMATO} Cargar lanchas y pasajeros desde archivos")
+        print(f" {C.AMARILLO}7{C.QUITAR_FORMATO} Salir")
+        opcion = input(f"\n{C.NEGRITA}Elige una opción ➜ {C.QUITAR_FORMATO}").strip()
+
+        if opcion == "1":
+           opcion_crear_lancha()
+        elif opcion == "v":
+           opcion_ver_lanchas()
+        elif opcion == "2":
+           opcion_registrar_dia()
+        elif opcion == "3":
+          opcion_simular_dias()
+        elif opcion == "4":
+          opcion_generar_informe()
+        elif opcion == "5":
+          opcion_factores_extremos()
+        elif opcion == "6":
+          opcion_cargar_desde_archivo()
+        elif opcion == "7":
+            print("Chao.")
+            break 
+        else:
+            print("Opción no válida.")
+        input(f"\n{C.TEXTO_ATENUADO}Presiona Enter para continuar...{C.QUITAR_FORMATO}")
+
+    if __name__ == "__main__":
+        menu()
+
