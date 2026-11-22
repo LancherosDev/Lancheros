@@ -1,6 +1,6 @@
 from datetime import date
 from os import system, name
-from logica_clt import Lancha
+from business_logic import Lancha
  
  
 class C:

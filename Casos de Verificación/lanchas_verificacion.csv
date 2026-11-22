@@ -1,0 +1,12 @@
+nombre;cupos;año;mes;día
+Caracola;40;2026;11;1
+Umbral;10;2026;11;1
+Rachas;10;2026;11;1
+Llena;10;2026;11;1
+Unica;1;2026;11;1
+FinDeAnio;10;2026;12;30
+Bisiesto;10;2028;2;28
+NoBisiesto;10;2026;2;28
+Siglo2100;10;2100;2;28
+Siglo2000;10;2000;2;28
+Vacia;15;2026;11;1
