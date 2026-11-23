@@ -187,4 +187,4 @@ Se usó Gemini como apoyo en la configuración del entorno (Git, Python, VS Code
 ## 🎥 Video explicativo
 
 <!-- Reemplazar con el enlace público del video -->
-[Ver video](ENLACE_AL_VIDEO)
+[Ver video]([https://youtu.be/6XID376PUbo])
